@@ -1,0 +1,31 @@
+
+$breakpoint-xxsmall:                           320px  // iPhone5 iPhoneSE
+$breakpoint-xsmall:                            375px  // Phone landscape
+$breakpoint-small:                             640px  // Phone landscape
+$breakpoint-medium:                            960px  // Tablet Landscape
+$breakpoint-large:                             1200px // Desktop
+$breakpoint-xlarge:                            1600px // Large Screens
+
+=onlyMobile
+  @media only screen and (max-width: $breakpoint-small)
+    @content
+
+=onlyMobileS
+  @media only screen and (max-width: $breakpoint-xsmall)
+    @content
+
+=onlyMobileXS
+  @media only screen and (max-width: $breakpoint-xxsmall)
+    @content
+
+=onlyMobileM
+  @media only screen and (max-width: $breakpoint-medium)
+    @content
+
+=onlyTb
+  @media only screen and (min-width: $breakpoint-small) and (max-width: $breakpoint-medium)
+    @content
+
+=onlyDesctop
+  @media only screen and (min-width: $breakpoint-small)
+    @content
