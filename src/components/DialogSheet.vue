@@ -12,7 +12,7 @@
         v-for='item in group.templateItems'
         v-if='!item.condition || (item.condition && checkCondition(item.condition) === true)'
       )
-        h4.uk-heading-bullet(v-if='item.title' ) {{ item.title }}
+        h4.uk-heading-bullet(v-if='item.title', :ref='item.key') {{ item.title }}
           ui-annotation(v-if='isRequired(item.key)') *必須
         el-button(v-if='item.hideButton' type='primary' @click='item.hideButton = null') {{ item.hideButton }}
         el-form-item(
@@ -131,7 +131,6 @@ export default class DialogSheet extends Vue {
         validateRules[item.key] = validation;
       });
     });
-
     return validateRules;
   }
   private onChangeData(key: string, value: DialogSheetAnswer, componentName: string): void {
