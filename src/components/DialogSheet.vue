@@ -12,7 +12,7 @@
         v-for='item in group.templateItems'
         v-if='!item.condition || (item.condition && checkCondition(item.condition) === true)'
       )
-        h4.uk-heading-bullet(v-if='item.title' ) {{ item.title }}
+        h4.uk-heading-bullet(v-if='item.title' v-bind:id='item.key') {{ item.title }}
           ui-annotation(v-if='isRequired(item.key)') *必須
         el-button(v-if='item.hideButton' type='primary' @click='item.hideButton = null') {{ item.hideButton }}
         el-form-item(
@@ -51,6 +51,8 @@ import FormSortableChoice from "./form/sortable-choice.vue";
 import FormSortable from "./form/sortable.vue";
 import FormTextarea from "./form/textarea.vue";
 import { Form, Button, FormItem, Input } from "element-ui";
+import { ValidateCallback } from "element-ui/types/form";
+import VueScrollTo from 'vue-scrollto';
 
 
 // TODO: set type
@@ -91,6 +93,22 @@ export default class DialogSheet extends Vue {
   private valid = false;
 
   private answerData: object = {};
+
+  scrollTo(invalidFields: object): void {
+    let firstInvalidField = "";
+
+    // 最初にバリデーション対象となっている項目を特定するための処理
+    this.template.templateGroups.forEach((group) => {
+      if (firstInvalidField !== "") return;
+      group.templateItems.forEach((item) => {
+        if (firstInvalidField !== "") return;
+        if (Object.keys(invalidFields).includes(item.key)) {
+          firstInvalidField = item.key;
+        }
+      });
+    });
+    VueScrollTo.scrollTo("#" + firstInvalidField, 2000, {easing: 'linear'});
+  }
 
   get submitData(): DialogSheetAnswers {
     return this.value;
@@ -143,7 +161,7 @@ export default class DialogSheet extends Vue {
   }
 
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  get validate() {
+  get validate(): {(callback: ValidateCallback): void} {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return (this.$refs.myForm as any).validate;
   }
