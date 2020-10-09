@@ -21,7 +21,7 @@
           :required='isRequired(item.key)'
           :ref='item.key'
         )
-          p(v-if='item.detail').uk-text-small.uk-text-muted {{ item.detail }}
+          p(v-if='item.detail' v-html='item.detail').uk-text-small.uk-text-muted
           el-input(v-if='item.type=="text"' v-model='submitData[item.key]' :placeholder='item.placeholder || "ここに記入してください"' :readonly='readMode')
           compoment(v-else
             :is='`form-${item.type}`'
