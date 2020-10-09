@@ -34,6 +34,7 @@
             @change='onChangeData'
             :options='item.options'
           )
+          p(v-if='item.footer' v-html='item.footer').uk-text-xsmall.uk-text-muted
 
 </template>
 <script lang="ts">
