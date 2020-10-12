@@ -33,11 +33,12 @@ export default class Sample extends Vue {
 
   private async validateCheck(): Promise<void> {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const formEl: any = this.$refs.dialogSheet as any;
+    const formEl: DialogSheet = this.$refs.dialogSheet as DialogSheet;
     this.isDialogSheetValid = await new Promise(resolve => {
-      formEl.validate((valid: boolean) => {
-        alert(valid);
-        resolve(valid);
+      formEl.validate((isValid: boolean, invalidFields: object) => {
+        alert(isValid);
+        if (Object.keys(invalidFields)) formEl.scrollTo(invalidFields);
+        resolve(isValid);
       });
     });
   }
