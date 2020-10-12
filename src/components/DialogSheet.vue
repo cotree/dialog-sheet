@@ -34,7 +34,7 @@
             @change='onChangeData'
             :options='item.options'
           )
-          p(v-if='item.footer' v-html='item.footer').uk-text-xsmall.uk-text-muted
+          p(v-if='item.footer' v-html='item.footer').uk-text-small.uk-text-muted.uk-margin-remove-bottom
 
 </template>
 <script lang="ts">
