@@ -107,7 +107,7 @@ export default class DialogSheet extends Vue {
         }
       });
     });
-    VueScrollTo.scrollTo("#" + firstInvalidField, 2000, {easing: 'linear'});
+    VueScrollTo.scrollTo("#" + firstInvalidField, 1200, {easing: 'linear'});
   }
 
   get submitData(): DialogSheetAnswers {
@@ -163,7 +163,14 @@ export default class DialogSheet extends Vue {
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   get validate(): {(callback: ValidateCallback): void} {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return (this.$refs.myForm as any).validate;
+    return (callback: ValidateCallback): void => {
+      const callbackWrapper = (isValid: boolean, invalidFields: object): void => {
+        callback(isValid, invalidFields);
+        // コールバック処理のあとにスクロールする
+        if (Object.keys(invalidFields)) this.scrollTo(invalidFields);
+      };
+      (this.$refs.myForm as Form).validate(callbackWrapper);
+    };
   }
   // TODO: 動作が正しいかチェック
   private getFirstValueOfArray<T>(array: T[]|T): T|string {
