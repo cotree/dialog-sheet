@@ -1,59 +1,40 @@
 <template lang="pug">
 .view-index
-  el-form(
-    v-if="template",
-    ref="myForm",
-    label-position="top",
-    :model="submitData",
-    :rules="validateRules"
-  )
+  el-form(v-if='template' ref='myForm' label-position='top' :model='submitData' :rules='validateRules')
     //- group(カード)
-    ui-card(
-      v-for="group in template.templateGroups",
-      :key="group.key",
-      v-if="!group.condition || (group.condition && checkCondition(group.condition) === true)"
-    )
-      h2.uk-heading-line(v-if="group.title")
+    ui-card(v-for='group in template.templateGroups' :key='group.key' v-if='!group.condition || (group.condition && checkCondition(group.condition) === true)')
+      h2(v-if='group.title').uk-heading-line
         span {{ group.title }}
-      pre(v-if="group.detail", v-html="group.detail")
+      pre(v-if='group.detail' v-html='group.detail')
 
       //- item(質問)
       template(
-        v-for="item in group.templateItems",
-        v-if="!item.condition || (item.condition && checkCondition(item.condition) === true)"
+        v-for='item in group.templateItems'
+        v-if='!item.condition || (item.condition && checkCondition(item.condition) === true)'
       )
-        h4.uk-heading-bullet(v-if="item.title", v-bind:id="item.key") {{ item.title }}
-          ui-annotation(v-if="isRequired(item.key)") *必須
-        el-button(
-          v-if="item.hideButton",
-          type="primary",
-          @click="item.hideButton = null"
-        ) {{ item.hideButton }}
+        h4.uk-heading-bullet(v-if='item.title' v-bind:id='item.key') {{ item.title }}
+          ui-annotation(v-if='isRequired(item.key)') *必須
+        el-button(v-if='item.hideButton' type='primary' @click='item.hideButton = null') {{ item.hideButton }}
         el-form-item(
-          v-else,
-          :prop="item.key",
-          :required="isRequired(item.key)",
-          :ref="item.key"
+          v-else
+          :prop='item.key'
+          :required='isRequired(item.key)'
+          :ref='item.key'
         )
-          p.uk-text-small.uk-text-muted(v-if="item.detail") {{ item.detail }}
-          el-input(
-            v-if="item.type == 'text'",
-            v-model="submitData[item.key]",
-            :placeholder="item.placeholder || 'ここに記入してください'",
-            :readonly="readMode"
+          p(v-if='item.detail').uk-text-small.uk-text-muted {{ item.detail }}
+          el-input(v-if='item.type=="text"' v-model='submitData[item.key]' :placeholder='item.placeholder || "ここに記入してください"' :readonly='readMode')
+          compoment(v-else
+            :is='`form-${item.type}`'
+            :_key='item.key'
+            v-model='submitData[item.key]'
+            :labels='item.labels'
+            :listArray='item.listArray'
+            :type='item.styleType'
+            :disabled='readMode'
+            @change='onChangeData'
+            :options='item.options'
           )
-          compoment(
-            v-else,
-            :is="`form-${item.type}`",
-            :_key="item.key",
-            v-model="submitData[item.key]",
-            :labels="item.labels",
-            :listArray="item.listArray",
-            :type="item.styleType",
-            :disabled="readMode",
-            @change="onChangeData",
-            :options="item.options"
-          )
+
 </template>
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
@@ -72,7 +53,7 @@ import FormTextarea from "./form/textarea.vue";
 import { Form, Button, FormItem, Input } from "element-ui";
 import { ValidateCallback } from "element-ui/types/form";
 import VueScrollTo from 'vue-scrollto';
-import ScrollToElement from 'scroll-to-element';
+
 
 // TODO: set type
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -126,11 +107,7 @@ export default class DialogSheet extends Vue {
         }
       });
     });
-    ScrollToElement("#" + firstInvalidField, {
-	    offset: 0,
-	    ease: 'linear',
-	    duration: 1500
-    });
+    VueScrollTo.scrollTo("#" + firstInvalidField, 1200, {easing: 'linear'});
   }
 
   get submitData(): DialogSheetAnswers {
