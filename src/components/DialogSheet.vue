@@ -89,6 +89,10 @@ export default class DialogSheet extends Vue {
   @Prop({ type: Boolean, default: false })
   private readMode!: boolean;
 
+  // 自動スクロールの調整用のプロパティ
+  @Prop({ type: Number, default: 0 })
+  private scrollOffset!: number;
+
   private reservationId!: number;
   private valid = false;
 
@@ -107,7 +111,7 @@ export default class DialogSheet extends Vue {
         }
       });
     });
-    VueScrollTo.scrollTo("#" + firstInvalidField, 1200, {easing: 'linear'});
+    VueScrollTo.scrollTo("#" + firstInvalidField, 1200, {easing: 'linear', offset: this.scrollOffset});
   }
 
   get submitData(): DialogSheetAnswers {
