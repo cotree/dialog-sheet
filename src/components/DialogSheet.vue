@@ -50,6 +50,7 @@ import FormSlider from "./form/slider.vue";
 import FormSortableChoice from "./form/sortable-choice.vue";
 import FormSortable from "./form/sortable.vue";
 import FormTextarea from "./form/textarea.vue";
+import FormNumber from "./form/number.vue";
 import { Form, Button, FormItem, Input } from "element-ui";
 import { ValidateCallback } from "element-ui/types/form";
 import VueScrollTo from 'vue-scrollto';
@@ -73,6 +74,7 @@ type ValidateRules = any;
     FormSortableChoice,
     FormSortable,
     FormTextarea,
+    FormNumber,
     "el-form": Form,
     "el-button": Button,
     "el-form-item": FormItem,
@@ -139,6 +141,7 @@ export default class DialogSheet extends Vue {
       sortable: { type: "array", message: "※値が不正です" },
       slider: { type: "number", min: 0, max: 10, message: "※値が不正です" },
       checkbox: { type: "array", message: "※値が不正です" },
+      "number": { type: "number", min: 0, max: 100, message: "※値が不正です" },
     };
     this.template.templateGroups.forEach((group) => {
       group.templateItems.forEach((item) => {
