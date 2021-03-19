@@ -225,6 +225,23 @@ export default {
           "title": "相談内容を具体的に教えてください。"
         }
       ]
+    },
+    {
+      "title": "type number",
+      "key": "ui_number",
+      "detail": "number の UIサンプル",
+      "templateItems": [
+        {
+          "key": "age",
+          "type": "number",
+          "title": "年齢",
+          "validation": {
+            "min": 18,
+            "max": 120,
+            "message": "年齢は18~120で入力してください"
+          }
+        }
+      ]
     }
   ]
 };
