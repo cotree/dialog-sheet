@@ -6,7 +6,7 @@
       :template="formTemplate"
     />
     <button
-      style="display: block;"
+      style="display: block;margin: 20px auto;height: 30px;width: 200px;"
       @click="onClick"
     >
       送信
