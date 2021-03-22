@@ -21,7 +21,7 @@
           :required='isRequired(item.key)'
           :ref='item.key'
         )
-          p(v-if='item.detail').uk-text-small.uk-text-muted {{ item.detail }}
+          p(v-if='item.detail' v-html='item.detail').uk-text-small.uk-text-muted
           el-input(v-if='item.type=="text"' v-model='submitData[item.key]' :placeholder='item.placeholder || "ここに記入してください"' :readonly='readMode')
           compoment(v-else
             :is='`form-${item.type}`'
@@ -34,6 +34,7 @@
             @change='onChangeData'
             :options='item.options'
           )
+          p(v-if='item.footer' v-html='item.footer').uk-text-small.uk-text-muted.uk-margin-remove-bottom
 
 </template>
 <script lang="ts">
@@ -44,6 +45,7 @@ import FormBoolean from "./form/boolean.vue";
 import FormCheckbox from "./form/checkbox.vue";
 import FormListTextarea from "./form/list-textarea.vue";
 import FormRadio11 from "./form/radio-11.vue";
+import FormRadio7 from "./form/radio-7.vue";
 import FormRadio6 from "./form/radio-6.vue";
 import FormRadio from "./form/radio.vue";
 import FormSlider from "./form/slider.vue";
@@ -68,6 +70,7 @@ type ValidateRules = any;
     FormCheckbox,
     FormListTextarea,
     "form-radio-11": FormRadio11,
+    "form-radio-7": FormRadio7,
     "form-radio-6": FormRadio6,
     FormRadio,
     FormSlider,
@@ -137,6 +140,7 @@ export default class DialogSheet extends Vue {
     // タイプ別デフォルト
     const defaultValidateRulesByType: ValidateRules = {
       "radio-6": { type: "number", min: 1, max: 6, message: "※値が不正です" },
+      "radio-7": { type: "number", min: 1, max: 7, message: "※値が不正です" },
       'sortable-choice': { type: 'array', message: '※値が不正です' },
       sortable: { type: "array", message: "※値が不正です" },
       slider: { type: "number", min: 0, max: 10, message: "※値が不正です" },

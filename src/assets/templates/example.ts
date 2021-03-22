@@ -99,6 +99,22 @@ export default {
       ]
     },
     {
+      "title": "type radio-7",
+      "key": "ui_radio-7",
+      "detail": "radio-7 の UIサンプル",
+      "templateItems": [
+        {
+          "key": "ideal_amount_of_listening",
+          "type": "radio-7",
+          "title": "カウンセラーの関わり方で、あなたの期待に近いものにチェックをつけてください",
+          "labels": [
+            "話をきいてほしい",
+            "たくさん質問してほしい"
+          ]
+        }
+      ]
+    },
+    {
       "title": "type radio-11",
       "key": "ui_radio-11",
       "detail": "radio-11 の UIサンプル",
@@ -242,6 +258,6 @@ export default {
           }
         }
       ]
-    }
+    },
   ]
 };
