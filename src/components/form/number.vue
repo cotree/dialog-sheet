@@ -1,5 +1,5 @@
 <template lang="pug">
-.form-textarea
+.form-number
   el-input(
     v-model.number='myValue' 
     type='number' 
@@ -17,7 +17,7 @@ import { Input } from "element-ui";
     "el-input": Input,
   },
 })
-export default class FormTextarea extends Vue {
+export default class FormNumber extends Vue {
   @Prop() private value!: number[];
   @Prop({ default: "20" }) private placeholder!: string;
   get myValue(): number[] {
@@ -30,11 +30,11 @@ export default class FormTextarea extends Vue {
 }
 </script>
 <style lang="sass">
-.form-textarea
-  .el-textarea__inner
+.form-number
+  .el-number__inner
     padding: 10px 15px
     &[readonly]
       border-color: #DCDFE6
-  .el-textarea.is-disabled .el-textarea__inner
+  .el-number.is-disabled .el-number__inner
     color: #85888e
 </style>
