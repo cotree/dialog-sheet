@@ -52,6 +52,7 @@ import FormSlider from "./form/slider.vue";
 import FormSortableChoice from "./form/sortable-choice.vue";
 import FormSortable from "./form/sortable.vue";
 import FormTextarea from "./form/textarea.vue";
+import FormNumber from "./form/number.vue";
 import { Form, Button, FormItem, Input } from "element-ui";
 import { ValidateCallback } from "element-ui/types/form";
 import VueScrollTo from 'vue-scrollto';
@@ -76,6 +77,7 @@ type ValidateRules = any;
     FormSortableChoice,
     FormSortable,
     FormTextarea,
+    FormNumber,
     "el-form": Form,
     "el-button": Button,
     "el-form-item": FormItem,
@@ -91,6 +93,10 @@ export default class DialogSheet extends Vue {
 
   @Prop({ type: Boolean, default: false })
   private readMode!: boolean;
+
+  // 自動スクロールの調整用のプロパティ
+  @Prop({ type: Number, default: 0 })
+  private scrollOffset!: number;
 
   private reservationId!: number;
   private valid = false;
@@ -110,7 +116,7 @@ export default class DialogSheet extends Vue {
         }
       });
     });
-    VueScrollTo.scrollTo("#" + firstInvalidField, 2000, {easing: 'linear'});
+    VueScrollTo.scrollTo("#" + firstInvalidField, 1200, {easing: 'linear', offset: this.scrollOffset});
   }
 
   get submitData(): DialogSheetAnswers {
@@ -139,6 +145,7 @@ export default class DialogSheet extends Vue {
       sortable: { type: "array", message: "※値が不正です" },
       slider: { type: "number", min: 0, max: 10, message: "※値が不正です" },
       checkbox: { type: "array", message: "※値が不正です" },
+      "number": { type: "number", min: 0, max: 100, message: "※値が不正です" },
     };
     this.template.templateGroups.forEach((group) => {
       group.templateItems.forEach((item) => {
@@ -167,7 +174,14 @@ export default class DialogSheet extends Vue {
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   get validate(): {(callback: ValidateCallback): void} {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return (this.$refs.myForm as any).validate;
+    return (callback: ValidateCallback): void => {
+      const callbackWrapper = (isValid: boolean, invalidFields: object): void => {
+        callback(isValid, invalidFields);
+        // コールバック処理のあとにスクロールする
+        if (Object.keys(invalidFields)) this.scrollTo(invalidFields);
+      };
+      (this.$refs.myForm as Form).validate(callbackWrapper);
+    };
   }
   // TODO: 動作が正しいかチェック
   private getFirstValueOfArray<T>(array: T[]|T): T|string {

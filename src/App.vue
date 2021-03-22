@@ -6,7 +6,7 @@
       :template="formTemplate"
     />
     <button
-      style="display: block;"
+      style="display: block;margin: 20px auto;height: 30px;width: 200px;"
       @click="onClick"
     >
       送信
@@ -33,14 +33,9 @@ export default class Sample extends Vue {
 
   private async validateCheck(): Promise<void> {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const formEl: DialogSheet = this.$refs.dialogSheet as DialogSheet;
-    this.isDialogSheetValid = await new Promise(resolve => {
-      formEl.validate((isValid: boolean, invalidFields: object) => {
-        alert(isValid);
-        if (Object.keys(invalidFields)) formEl.scrollTo(invalidFields);
-        resolve(isValid);
-      });
-    });
+    this.isDialogSheetValid = await new Promise(
+      (this.$refs.dialogSheet as DialogSheet).validate
+    );
   }
 
   private async onClick(): Promise<void> {
