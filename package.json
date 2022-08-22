@@ -12,7 +12,7 @@
     "lint:fix": "eslint --fix --ext .js,.vue,.ts --ignore-path .gitignore .",
     "test:unit": "vue-cli-service test:unit",
     "build:lib": "vue-cli-service build --target lib --name dialog-sheet ./lib/main.js",
-    "prepare": "husky install"
+    "prepare:husky": "husky install"
   },
   "dependencies": {
     "core-js": "^3.24.1",
