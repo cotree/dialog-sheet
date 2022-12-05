@@ -51,7 +51,7 @@
     "typescript": "^3.4.3",
     "vue-eslint-parser": "^7.0.0",
     "vue-template-compiler": "^2.6.10",
-    "webpack-cli": "^3.3.8"
+    "webpack-cli": "^5.0.1"
   },
   "lint-staged": {
     "*.{js,vue,ts}": "eslint --cache --fix"
